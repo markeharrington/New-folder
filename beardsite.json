@@ -349,6 +349,55 @@
             }
         },
         {
+            "name": "beardlabvm1",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', toLower('beardlabvm1storage'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', 'beardlabvm1-NetworkInterface')]"
+            ],
+            "tags": {
+                "displayName": "beardlabvm1"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A2_v2"
+                },
+                "osProfile": {
+                    "computerName": "beardlabvm1",
+                    "adminUsername": "adminUsername",
+                    "adminPassword": "adminPassword"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "beardlabvm1OSDisk",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'beardlabvm1-NetworkInterface')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', toLower('beardlabvm1storage'))).primaryEndpoints.blob]"
+                    }
+                }
+            }
+        },
+        {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-07-01",
             "name": "[concat(parameters('virtualNetworks_BeardSite_vnet_name'), '/default')]",
@@ -553,55 +602,6 @@
                         }
                     }
                 ]
-            }
-        },
-        {
-            "name": "beardlabvm1",
-            "type": "Microsoft.Compute/virtualMachines",
-            "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', toLower('beardlabvm1storage'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', 'beardlabvm1-NetworkInterface')]"
-            ],
-            "tags": {
-                "displayName": "beardlabvm1"
-            },
-            "properties": {
-                "hardwareProfile": {
-                    "vmSize": "Standard_A2_v2"
-                },
-                "osProfile": {
-                    "computerName": "beardlabvm1",
-                    "adminUsername": "adminUsername",
-                    "adminPassword": "adminPassword"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "MicrosoftWindowsServer",
-                        "offer": "WindowsServer",
-                        "sku": "2012-R2-Datacenter",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "name": "beardlabvm1OSDisk",
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage"
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'beardlabvm1-NetworkInterface')]"
-                        }
-                    ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true,
-                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', toLower('beardlabvm1storage'))).primaryEndpoints.blob]"
-                    }
-                }
             }
         }
     ]
