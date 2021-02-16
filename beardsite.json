@@ -1,6 +1,6 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.4",
+    "contentVersion": "1.0.0.5",
     "parameters": {
         "virtualMachines_backendSERVER_name": {
             "defaultValue": "backendSERVER",
@@ -445,12 +445,12 @@
             }
         },
         {
-            "name": "[toLower('windowsVM1storage')]",
+            "name": "[toLower('beardlabvm1storage')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "windowsVM1 Storage Account"
+                "displayName": "beardlabvm1 Storage Account"
             },
             "sku": {
                 "name": "Standard_LRS"
@@ -458,7 +458,7 @@
             "kind": "Storage"
         },
         {
-            "name": "windowsVM1-PublicIP",
+            "name": "beardlabvm1-PublicIP",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
@@ -468,12 +468,12 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower('windowsVM1')]"
+                    "domainNameLabel": "[toLower('beardlabvm1')]"
                 }
             }
         },
         {
-            "name": "windowsVM1-nsg",
+            "name": "beardlabvm1-nsg",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2018-08-01",
             "location": "[resourceGroup().location]",
@@ -497,15 +497,15 @@
             }
         },
         {
-            "name": "windowsVM1-VirtualNetwork",
+            "name": "beardlabvm1-VirtualNetwork",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', 'windowsVM1-nsg')]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', 'beardlabvm1-nsg')]"
             ],
             "tags": {
-                "displayName": "windowsVM1-VirtualNetwork"
+                "displayName": "beardlabvm1-VirtualNetwork"
             },
             "properties": {
                 "addressSpace": {
@@ -515,11 +515,11 @@
                 },
                 "subnets": [
                     {
-                        "name": "windowsVM1-VirtualNetwork-Subnet",
+                        "name": "beardlabvm1-VirtualNetwork-Subnet",
                         "properties": {
                             "addressPrefix": "10.0.0.0/24",
                             "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'windowsVM1-nsg')]"
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'beardlabvm1-nsg')]"
                             }
                         }
                     }
@@ -527,16 +527,16 @@
             }
         },
         {
-            "name": "windowsVM1-NetworkInterface",
+            "name": "beardlabvm1-NetworkInterface",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', 'windowsVM1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', 'windowsVM1-VirtualNetwork')]"
+                "[resourceId('Microsoft.Network/publicIPAddresses', 'beardlabvm1-PublicIP')]",
+                "[resourceId('Microsoft.Network/virtualNetworks', 'beardlabvm1-VirtualNetwork')]"
             ],
             "tags": {
-                "displayName": "windowsVM1 Network Interface"
+                "displayName": "beardlabvm1 Network Interface"
             },
             "properties": {
                 "ipConfigurations": [
@@ -545,10 +545,10 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'windowsVM1-PublicIP')]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'beardlabvm1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'windowsVM1-VirtualNetwork', 'windowsVM1-VirtualNetwork-Subnet')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'beardlabvm1-VirtualNetwork', 'beardlabvm1-VirtualNetwork-Subnet')]"
                             }
                         }
                     }
@@ -556,23 +556,23 @@
             }
         },
         {
-            "name": "windowsVM1",
+            "name": "beardlabvm1",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', toLower('windowsVM1storage'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', 'windowsVM1-NetworkInterface')]"
+                "[resourceId('Microsoft.Storage/storageAccounts', toLower('beardlabvm1storage'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', 'beardlabvm1-NetworkInterface')]"
             ],
             "tags": {
-                "displayName": "windowsVM1"
+                "displayName": "beardlabvm1"
             },
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "Standard_A2_v2"
                 },
                 "osProfile": {
-                    "computerName": "windowsVM1",
+                    "computerName": "beardlabvm1",
                     "adminUsername": "adminUsername",
                     "adminPassword": "adminPassword"
                 },
@@ -584,7 +584,7 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "name": "windowsVM1OSDisk",
+                        "name": "beardlabvm1OSDisk",
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
                     }
@@ -592,14 +592,14 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'windowsVM1-NetworkInterface')]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'beardlabvm1-NetworkInterface')]"
                         }
                     ]
                 },
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', toLower('windowsVM1storage'))).primaryEndpoints.blob]"
+                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', toLower('beardlabvm1storage'))).primaryEndpoints.blob]"
                     }
                 }
             }
