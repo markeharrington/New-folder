@@ -1040,7 +1040,6 @@
                             "enableFloatingIP": false,
                             "enableTcpReset": false,
                             "frontendIPConfiguration": {
-                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_vmlab1ss1lb1_name')), '/frontendIPConfigurations/vmlab1ss1')]"
                             }
                         }
                     }
@@ -1090,7 +1089,6 @@
                         "name": "LBRule",
                         "properties": {
                             "frontendIPConfiguration": {
-                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_vmlab1vmss1_lb_name')), '/frontendIPConfigurations/LoadBalancerFrontEnd')]"
                             },
                             "frontendPort": 80,
                             "backendPort": 80,
