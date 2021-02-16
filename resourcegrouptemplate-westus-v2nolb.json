@@ -951,8 +951,8 @@
                 }
             }
         },
-        ,
-        ,
+        
+        
         {
             "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
             "apiVersion": "2020-08-01-preview",
