@@ -52,11 +52,11 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "RDP",
+                        "name": "SSH",
                         "properties": {
                             "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "3389",
+                            "destinationPortRange": "22",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
@@ -69,15 +69,15 @@
                         }
                     },
                     {
-                        "name": "SSH",
+                        "name": "RDP",
                         "properties": {
                             "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "22",
+                            "destinationPortRange": "3389",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 301,
+                            "priority": 310,
                             "direction": "Inbound",
                             "sourcePortRanges": [],
                             "destinationPortRanges": [],
@@ -85,6 +85,7 @@
                             "destinationAddressPrefixes": []
                         }
                     }
+                    
                 ]
             }
         },
@@ -107,7 +108,7 @@
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 310,
+                            "priority": 320,
                             "direction": "Inbound",
                             "sourcePortRanges": [],
                             "destinationPortRanges": [],
@@ -124,7 +125,7 @@
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 320,
+                            "priority": 330,
                             "direction": "Inbound",
                             "sourcePortRanges": [],
                             "destinationPortRanges": [],
